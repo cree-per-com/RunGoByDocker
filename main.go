@@ -12,26 +12,22 @@ func xorWithKey(data []byte, key []byte) []byte {
 	}
 	return encrypted
 }
-
 func main() {
-	// 암호화된 문자열
+	// 이 문자열이 무엇일까요?
 	encryptedData := "OwwBHANFOBATGgdNEQIBSyYREgwFBw1E"
 
-	// 암호화에 사용한 키와 동일한 키 사용
 	fullKey := []byte("simplekey")
 
-	// Base64 인코딩된 문자열 디코딩
 	data, err := base64.StdEncoding.DecodeString(encryptedData)
 	if err != nil {
 		fmt.Println("Error decoding:", err)
 		return
 	}
 
-	// 복호화
+	// 해독 결과 출력
 	decrypted := xorWithKey(data, fullKey)
 	fmt.Println("해독 결과:", string(decrypted))
 }
 
 //docker build -t my-go-app .
 //docker run -d my-go-app
-

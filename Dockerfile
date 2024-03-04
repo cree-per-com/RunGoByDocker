@@ -4,22 +4,18 @@ FROM golang:1.18 AS builder
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# 의존성 파일 복사 후 다운로드
+# go.mod 파일 복사 후 의존성 다운로드
 COPY go.mod ./
-COPY go.sum ./
 RUN go mod download
 
 # 소스 코드 복사
-COPY *.go ./
+COPY . .
 
 # 애플리케이션 빌드
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o myapp .
 
 # 2단계: 실행 환경 준비
-FROM alpine:latest  
-
-# 필요한 경우 추가 패키지 설치
-RUN apk --no-cache add ca-certificates
+FROM alpine:latest
 
 WORKDIR /root/
 
@@ -28,7 +24,3 @@ COPY --from=builder /app/myapp .
 
 # 컨테이너 실행 시 애플리케이션 실행
 CMD ["./myapp"]
-
-
-# docker build -t my-go-app .
-# docker run -d my-go-app
