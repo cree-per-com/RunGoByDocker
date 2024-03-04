@@ -31,3 +31,7 @@ func main() {
 	decrypted := xorWithKey(data, fullKey)
 	fmt.Println("해독 결과:", string(decrypted))
 }
+
+//docker build -t my-go-app .
+//docker run -d my-go-app
+
